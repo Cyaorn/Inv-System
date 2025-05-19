@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bw5vi3fubcvam"]
+
+[node name="Item" type="Node2D"]
+
+[node name="GridContainer" type="GridContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
