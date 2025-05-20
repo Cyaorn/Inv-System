@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://mu3vtfv3sv0b"]
+[gd_scene load_steps=3 format=3 uid="uid://mu3vtfv3sv0b"]
 
-[ext_resource type="Script" uid="uid://c6jj740ciiu10" path="res://DataLoader.gd" id="1_qw0r6"]
+[ext_resource type="Script" uid="uid://dst4308c5ysk1" path="res://scenes/inventory.gd" id="1_hj2ta"]
+[ext_resource type="TileSet" uid="uid://df2xdetgx4kiq" path="res://assets/tile_set.tres" id="2_hj2ta"]
 
 [node name="Inventory" type="Control"]
 layout_mode = 3
@@ -9,4 +10,30 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_qw0r6")
+script = ExtResource("1_hj2ta")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.111197, 0.111197, 0.111197, 1)
+
+[node name="SkillPalette" type="MarginContainer" parent="Background"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 238.0
+offset_right = 410.0
+offset_bottom = 638.0
+
+[node name="GridContainer" type="GridContainer" parent="Background/SkillPalette"]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 4
+
+[node name="Board" type="TileMapLayer" parent="Background/SkillPalette"]
+tile_set = ExtResource("2_hj2ta")
+
+[node name="Active" type="TileMapLayer" parent="Background/SkillPalette/Board"]
+self_modulate = Color(1, 1, 1, 0.376471)
+tile_set = ExtResource("2_hj2ta")

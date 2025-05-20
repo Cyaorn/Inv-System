@@ -1,8 +1,10 @@
 extends Node
 
+# item data
 var item_data := {}
 var item_grid_data := {}
 @onready var item_data_path = "res://data/ItemData.json"
+
 
 func _ready() -> void:
 	load_data(item_data_path)
@@ -15,7 +17,7 @@ func load_data(path) -> void:
 	var item_data_file = FileAccess.open(path, FileAccess.READ)
 	item_data = JSON.parse_string(item_data_file.get_as_text())
 	item_data_file.close()
-	print(item_data)
+	# print(item_data)
 	var temp_item_data = {}
 	for key in item_data.keys():
 		var temp_item : Item = Item.new()
@@ -30,7 +32,7 @@ func load_data(path) -> void:
 		temp_item.spaces = temp_array
 		temp_item_data.set(int(key), temp_item)
 	item_data = temp_item_data
-	print(item_data)
+	# print(item_data)
 
 func set_grid_data() -> void:
 	pass
