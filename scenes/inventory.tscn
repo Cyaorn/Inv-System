@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://mu3vtfv3sv0b"]
+[gd_scene load_steps=5 format=3 uid="uid://mu3vtfv3sv0b"]
 
 [ext_resource type="Script" uid="uid://dst4308c5ysk1" path="res://scenes/inventory.gd" id="1_hj2ta"]
 [ext_resource type="TileSet" uid="uid://df2xdetgx4kiq" path="res://assets/tile_set.tres" id="2_hj2ta"]
+[ext_resource type="Script" uid="uid://ckk4y8ofnh1lf" path="res://scenes/active_layer.gd" id="3_53g1v"]
+[ext_resource type="Script" uid="uid://uqiwu66u8mif" path="res://scenes/skill_selector.gd" id="3_ty45s"]
 
 [node name="Inventory" type="Control"]
 layout_mode = 3
@@ -35,5 +37,14 @@ columns = 4
 tile_set = ExtResource("2_hj2ta")
 
 [node name="Active" type="TileMapLayer" parent="Background/SkillPalette/Board"]
-self_modulate = Color(1, 1, 1, 0.376471)
+self_modulate = Color(1, 1, 1, 0.392157)
 tile_set = ExtResource("2_hj2ta")
+script = ExtResource("3_53g1v")
+
+[node name="SkillSelector" type="OptionButton" parent="Background"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 50.0
+script = ExtResource("3_ty45s")

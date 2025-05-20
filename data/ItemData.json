@@ -1,23 +1,23 @@
 {
-  "1": {
+  "0": {
 	"Name": "ATK +2",
 	"Type": "Stat",
 	"Effect": "A,2",
 	"Size": "0,0/0,1"
   },
-  "2": {
+  "1": {
 	"Name": "MAG +2",
 	"Type": "Stat",
 	"Effect": "M,2",
 	"Size": "0,0/1,0"
   },
-  "3": {
+  "2": {
 	"Name": "SPD +5",
 	"Type": "Stat",
 	"Effect": "S,5",
 	"Size": "0,0/0,1/1,0"
   },
-  "4": {
+  "3": {
 	"Name": "Treat",
 	"Type": "Other",
 	"Effect": "Treat",

@@ -9,6 +9,7 @@ var COLS : int = 4
 var grid_array := []
 
 func _ready() -> void:
+	$Background/SkillSelector.connect("item_selected", $Background/SkillPalette/Board/Active.update_piece)
 	grid_container.columns = COLS
 	for i in range(ROWS * COLS):
 		create_slot()
