@@ -1,13 +1,13 @@
 extends Node
 
 # maps skill type to corresponding tile in atlas
-const skill_type_map := ["Stat", null, null, null, null, null, null, "Other"]
+const skill_type_map := ["Stat", null, null, null, "Other", null, null, "Command"]
 # these are subject to change later
 const ROWS := 4
 const COLS := 4
 
 # item data
-var item_data := {}
+var item_data := {} # might want to use a regular array if the ids are integers
 var item_grid_data := {}
 @onready var item_data_path = "res://data/ItemData.json"
 

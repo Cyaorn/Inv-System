@@ -19,8 +19,14 @@
   },
   "3": {
 	"Name": "Treat",
-	"Type": "Other",
+	"Type": "Command",
 	"Effect": "Treat",
 	"Size": "0,0/0,1/1,1"
+  },
+  "4": {
+	"Name": "Anti-Force",
+	"Type": "Other",
+	"Effect": "Anti",
+	"Size": "0,0/0,1/0,2"
   }
 }
