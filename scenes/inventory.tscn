@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://mu3vtfv3sv0b"]
+[gd_scene load_steps=8 format=3 uid="uid://mu3vtfv3sv0b"]
 
 [ext_resource type="Script" uid="uid://dst4308c5ysk1" path="res://scripts/inventory.gd" id="1_hj2ta"]
 [ext_resource type="TileSet" uid="uid://df2xdetgx4kiq" path="res://assets/tile_set.tres" id="2_hj2ta"]
+[ext_resource type="Script" uid="uid://c8a3wof5elx27" path="res://scripts/grid_container.gd" id="2_s887n"]
 [ext_resource type="Script" uid="uid://ckk4y8ofnh1lf" path="res://scripts/active_layer.gd" id="3_53g1v"]
 [ext_resource type="Script" uid="uid://uqiwu66u8mif" path="res://scripts/skill_selector.gd" id="3_ty45s"]
 [ext_resource type="Script" uid="uid://cossm5mv04vxq" path="res://scripts/board_layer.gd" id="4_yyk2a"]
@@ -22,32 +23,35 @@ offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.111197, 0.111197, 0.111197, 1)
 
-[node name="SkillPalette" type="MarginContainer" parent="Background"]
+[node name="SkillPalette" type="MarginContainer" parent="."]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 238.0
 offset_right = 410.0
 offset_bottom = 638.0
 
-[node name="GridContainer" type="GridContainer" parent="Background/SkillPalette"]
+[node name="GridContainer" type="GridContainer" parent="SkillPalette"]
 layout_mode = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 4
+script = ExtResource("2_s887n")
 
-[node name="Active" type="TileMapLayer" parent="Background/SkillPalette/GridContainer"]
-self_modulate = Color(1, 1, 1, 0.392157)
+[node name="Active" type="TileMapLayer" parent="SkillPalette/GridContainer"]
+self_modulate = Color(1, 1, 1, 0.359)
 tile_set = ExtResource("2_hj2ta")
+occlusion_enabled = false
 script = ExtResource("3_53g1v")
 
-[node name="Board" type="TileMapLayer" parent="Background/SkillPalette/GridContainer/Active"]
+[node name="Board" type="TileMapLayer" parent="SkillPalette/GridContainer/Active"]
+show_behind_parent = true
 tile_set = ExtResource("2_hj2ta")
 script = ExtResource("4_yyk2a")
 
-[node name="Cursor" parent="Background/SkillPalette/GridContainer/Active" instance=ExtResource("5_uae8j")]
+[node name="Cursor" parent="SkillPalette/GridContainer/Active" instance=ExtResource("5_uae8j")]
 visible = false
 
-[node name="SkillSelector" type="OptionButton" parent="Background"]
+[node name="SkillSelector" type="OptionButton" parent="."]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 10.0

@@ -1,8 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh3vmsuo0s4yh"]
+[gd_scene load_steps=3 format=3 uid="uid://dh3vmsuo0s4yh"]
 
 [ext_resource type="Texture2D" uid="uid://bws2x0i241e4i" path="res://assets/cursor.png" id="1_1eco6"]
+[ext_resource type="Script" uid="uid://c8c5f2vfsmwqh" path="res://scripts/cursor.gd" id="2_s0nli"]
 
 [node name="Cursor" type="TextureRect"]
 offset_right = 100.0
 offset_bottom = 100.0
 texture = ExtResource("1_1eco6")
+script = ExtResource("2_s0nli")
+
+[node name="Container" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 76.0
+offset_right = 50.0
+offset_bottom = 90.0
+
+[node name="Margin" type="MarginContainer" parent="Container"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 14.0
+theme_override_constants/margin_left = 2
+
+[node name="Tooltip" type="Label" parent="Container/Margin"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "ATK +2 "
+clip_text = true
+text_overrun_behavior = 3
+
+[node name="ColorRect" type="ColorRect" parent="Container"]
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 14.0
+color = Color(0.0885599, 0.0885599, 0.0885599, 0.392157)
