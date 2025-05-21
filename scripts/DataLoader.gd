@@ -39,7 +39,7 @@ func load_data(path) -> void:
 		temp_item.spaces = temp_array
 		temp_item_data.set(int(key), temp_item)
 	item_data = temp_item_data
-	print(item_data)
+	# print(item_data)
 
 func set_grid_data() -> void:
 	pass

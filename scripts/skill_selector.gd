@@ -6,6 +6,7 @@ extends OptionButton
 var current_item : int
 
 func _ready() -> void:
+	add_item("None")
 	for key in item_data.keys():
 		add_item(item_data[key].name, key)
 	
