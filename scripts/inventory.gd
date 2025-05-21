@@ -12,9 +12,13 @@ var COLS : int = 4
 var grid_array := []
 
 func _ready() -> void:
-	skill_selector.connect("item_selected", active_layer.update_piece)
-	active_layer.connect("piece_placed", skill_selector.reset_selection)
+	skill_selector.connect("item_selected", skill_selector.report_selected)
+	skill_selector.connect("report_id", active_layer.update_piece)
+	active_layer.connect("reset_selection", skill_selector.reset_selection)
+	active_layer.connect("piece_placed", skill_selector.remove_selection)
 	active_layer.connect("piece_placed", grid_container.update_slots)
+	active_layer.connect("piece_removed_from_board", grid_container.reset_slots)
+	active_layer.connect("piece_lifted", skill_selector.add_selection)
 	# probably a more efficient way than to go signal -> signal to report data
 	active_layer.connect("cursor_hovering", grid_container.report_name)
 	grid_container.connect("reporting_tooltip", cursor.update_tooltip)

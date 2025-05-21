@@ -1,11 +1,15 @@
 extends TileMapLayer
 
 signal cursor_hovering
+signal reset_selection
 signal piece_placed
+signal piece_removed_from_board
+signal piece_lifted
 
 @onready var board = $Board
 @onready var cursor = $Cursor
 @onready var item_data = DataLoader.item_data
+@onready var item_dict = DataLoader.item_dict
 const tile_id = 0
 const TILE_SIZE := 100
 const TRANSLUCENT := Color(1, 1, 1, 0.4)
@@ -20,7 +24,7 @@ var current_atlas : Vector2i
 
 func _ready() -> void:
 	# connect("cursor_hovering", cursor.update_tooltip)
-	_reset_piece_variables(0)
+	_reset_piece_variables(0, true)
 	# draw_piece()
 	
 func _process(_delta) -> void:
@@ -37,15 +41,27 @@ func _process(_delta) -> void:
 		move_cursor(Vector2i.RIGHT)
 		move_piece(Vector2i.RIGHT)
 	elif Input.is_action_just_pressed("ui_f"):
+		# place piece if selected
 		if piece_selected:
 			clear_piece()
 			place_piece()
+		# else, pick up any piece the cursor is hovering over
+		else:
+			pick_up_piece()
+	elif Input.is_action_just_pressed("ui_x"):
+		if piece_selected:
+			clear_piece()
+			_reset_piece_variables(0)
+			emit_signal("cursor_hovering", cur_pos)
+			emit_signal("reset_selection")
 	
 	if Input.is_action_just_pressed("ui_up"):
 		_reset_piece()
 
-func _reset_piece_variables(id) -> void:
-	_reset_cursor()
+func _reset_piece_variables(id, full_reset : bool = false) -> void:
+	if full_reset:
+		emit_signal("reset_selection")
+		_reset_cursor()
 	current_id = id
 	self_modulate = TRANSLUCENT
 	if id == 0:
@@ -60,6 +76,7 @@ func _reset_piece_variables(id) -> void:
 func _reset_cursor():
 	cur_pos = Vector2i(0, 0)
 	cursor.position = Vector2(0, 0)
+	emit_signal("cursor_hovering", cur_pos)
 	
 func _reset_piece():
 	print("Resetting piece")
@@ -72,7 +89,7 @@ func update_piece(item_id) -> void:
 	# if previous selected piece was None
 	if current_id != 0:
 		clear_piece()
-	_reset_piece_variables(item_id)
+	_reset_piece_variables(item_id, true)
 	draw_piece()
 	
 func clear_piece() -> void:
@@ -119,15 +136,17 @@ func place_piece() -> void:
 			erase_cell(cur_pos + i)
 			board.set_cell(cur_pos + i, tile_id, current_atlas)
 		emit_signal("piece_placed", cur_pos, current_id, current_item)
+		emit_signal("reset_selection")
 		emit_signal("cursor_hovering", cur_pos)
 		_reset_piece_variables(0)
+		print(item_dict)
 	else:
 		clear_piece()
 		draw_piece(true)
 		var tween = create_tween()
 		tween.tween_method(_set_color, ERROR_COLOR, TRANSLUCENT, 0.4)
 		tween.connect("finished", _reset_piece)
-		
+
 func _set_color(color: Color):
 	self_modulate = color
 
@@ -142,3 +161,28 @@ func move_cursor(dir) -> void:
 		if not piece_selected:
 			# print("Emitting cursor_hovering")
 			emit_signal("cursor_hovering", cur_pos)
+
+# uses global item_dict to figure out where the entire piece is
+func pick_up_piece() -> void:
+	var hover_id = cursor.current_item_id
+	if hover_id == -1:
+		return
+	
+	# erase cells from Board Layer
+	for i in item_dict[hover_id]:
+		board.erase_cell(DataLoader._child_to_vector(i))
+	
+	# reset item_id of slots
+	emit_signal("piece_removed_from_board", item_dict[hover_id])
+	
+	# add piece back to dropdown menu
+	emit_signal("piece_lifted", hover_id)
+	
+	# remove piece from item_dict
+	item_dict.erase(hover_id)
+	
+	# set hovered piece to current held piece
+	piece_selected = true
+	_reset_piece_variables(hover_id)
+	draw_piece()
+	

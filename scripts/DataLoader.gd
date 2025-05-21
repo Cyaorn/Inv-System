@@ -8,9 +8,16 @@ const COLS := 4
 
 # item data
 var item_data := {} # might want to use a regular array if the ids are integers
-var item_grid_data := {}
 @onready var item_data_path = "res://data/ItemData.json"
 
+# player data
+
+# stores all the items where 
+# 	key: item_id, value: array of slots occupied by item
+# eventually:
+#	key: weapon_id, value: array of (item_id, [slot_id], stuck?) tuples
+#	[stuck?] will determine if the skill piece is permanently attached to weap.
+var item_dict := {}
 
 func _ready() -> void:
 	load_data(item_data_path)
@@ -43,3 +50,6 @@ func load_data(path) -> void:
 
 func set_grid_data() -> void:
 	pass
+	
+func _child_to_vector(slot_id : int) -> Vector2i:
+	return Vector2i(slot_id % COLS, int(slot_id / ROWS))

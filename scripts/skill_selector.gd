@@ -1,5 +1,7 @@
 extends OptionButton
 
+signal report_id
+
 @onready var item_data = DataLoader.item_data
 
 # keep track of the current item via its item_data id
@@ -10,6 +12,19 @@ func _ready() -> void:
 	for key in item_data.keys():
 		add_item(item_data[key].name, key)
 		
-func reset_selection(_cur_pos, _id, _item) -> void:
+func report_selected(idx) -> void:
+	emit_signal("report_id", get_item_id(idx))
+
+func reset_selection() -> void:
 	selected = 0
 	
+func remove_selection(_cur_pos, id, _item) -> void:
+	# remove_item(get_item_index(id))
+	set_item_disabled(get_item_index(id), true)
+	selected = 0
+	
+func add_selection(item_id: int) -> void:
+	var idx = get_item_index(item_id)
+	set_item_disabled(idx, false)
+	print(is_item_disabled(idx))
+	selected = idx
