@@ -23,6 +23,14 @@ offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0.111197, 0.111197, 0.111197, 1)
 
+[node name="SkillSelector" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 210.0
+offset_bottom = 50.0
+script = ExtResource("3_ty45s")
+
 [node name="SkillPalette" type="MarginContainer" parent="."]
 layout_mode = 0
 offset_left = 10.0
@@ -51,10 +59,4 @@ script = ExtResource("4_yyk2a")
 [node name="Cursor" parent="SkillPalette/GridContainer/Active" instance=ExtResource("5_uae8j")]
 visible = false
 
-[node name="SkillSelector" type="OptionButton" parent="."]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 210.0
-offset_bottom = 50.0
-script = ExtResource("3_ty45s")
+[connection signal="piece_too_large" from="SkillPalette/GridContainer/Active" to="SkillSelector" method="_on_active_piece_too_large"]

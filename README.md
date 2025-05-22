@@ -6,6 +6,8 @@ Grid Inventory System in Godot
 [x] Cursor to navigate Skill Palette
 [x] Placing Skill Pieces
 [x] Removing Skill Pieces
+	[ ] Allow picking up piece from anywhere without shifting it over
 [ ] Fix Tooltip
 [x] Keeping track of Skill Pieces already placed
 [ ] Different Skill Palettes with pre-embedded pieces
+[ ] Saving Skill Palette edits

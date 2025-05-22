@@ -5,11 +5,12 @@ signal reset_selection
 signal piece_placed
 signal piece_removed_from_board
 signal piece_lifted
+signal piece_too_large
 
 @onready var board = $Board
 @onready var cursor = $Cursor
 @onready var item_data = DataLoader.item_data
-@onready var item_dict = DataLoader.item_dict
+@onready var item_dict = PlayerData.item_dict
 const tile_id = 0
 const TILE_SIZE := 100
 const TRANSLUCENT := Color(1, 1, 1, 0.4)
@@ -25,6 +26,7 @@ var current_atlas : Vector2i
 func _ready() -> void:
 	# connect("cursor_hovering", cursor.update_tooltip)
 	_reset_piece_variables(0, true)
+	fix_selections()
 	# draw_piece()
 	
 func _process(_delta) -> void:
@@ -79,18 +81,34 @@ func _reset_cursor():
 	emit_signal("cursor_hovering", cur_pos)
 	
 func _reset_piece():
-	print("Resetting piece")
-	print("Color: " + str(self_modulate))
+	# print("Resetting piece")
+	# print("Color: " + str(self_modulate))
 	clear_piece()
 	draw_piece()
 	
+# Pretty inefficient function since it checks through every single possible
+#   square in every piece, but it should only run whenever the player equips
+#   a different weapon
+func fix_selections():
+	for key in item_data.keys():
+		# print("Item: " + item_data[key].name)
+		for coord in item_data[key].spaces:
+			# print(coord)
+			if coord.x >= PlayerData.COLS or coord.y >= PlayerData.ROWS:
+				print("Piece too big: " + item_data[key].name, key)
+				emit_signal("piece_too_large", key)
+	
 # runs whenever a new option is selected in dropdown
 func update_piece(item_id) -> void:
-	# if previous selected piece was None
+	# if previous selected piece was not None, clear it
 	if current_id != 0:
 		clear_piece()
-	_reset_piece_variables(item_id, true)
-	draw_piece()
+	_reset_cursor()
+	_reset_piece_variables(item_id)
+	
+	# if current piece is not None, draw it
+	if item_id != 0:
+		draw_piece()
 	
 func clear_piece() -> void:
 	for i in current_item.spaces:
@@ -107,15 +125,15 @@ func _can_move(dir) -> bool:
 		return false
 	for i in current_item.spaces:
 		var new_pos = i + cur_pos + dir
-		if new_pos.x < 0 or new_pos.x >= DataLoader.COLS or \
-		   new_pos.y < 0 or new_pos.y >= DataLoader.ROWS:
+		if new_pos.x < 0 or new_pos.x >= PlayerData.COLS or \
+		   new_pos.y < 0 or new_pos.y >= PlayerData.ROWS:
 			return false
 	return true
 
 func _can_move_cursor(dir) -> bool:
 	var new_pos = dir + cur_pos 
-	return new_pos.x >= 0 and new_pos.x < DataLoader.COLS and \
-		   new_pos.y >= 0 and new_pos.y < DataLoader.ROWS
+	return new_pos.x >= 0 and new_pos.x < PlayerData.COLS and \
+		   new_pos.y >= 0 and new_pos.y < PlayerData.ROWS
 		
 func move_piece(_dir) -> void:
 	if piece_selected: # can_move logic offloaded to move_cursor function
@@ -171,6 +189,7 @@ func pick_up_piece() -> void:
 	# erase cells from Board Layer
 	for i in item_dict[hover_id]:
 		board.erase_cell(DataLoader._child_to_vector(i))
+		# print("Erasing cell " + str(DataLoader._child_to_vector(i)))
 	
 	# reset item_id of slots
 	emit_signal("piece_removed_from_board", item_dict[hover_id])

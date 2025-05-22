@@ -1,0 +1,20 @@
+{
+  "1": {
+	"Name": "Dagger",
+	"Height": 2,
+	"Width": 3,
+	"Power": 3,
+	"SecretName": "SPD +5",
+	"SecretEffect": "S,5",
+	"Embedded": "1;0,0"
+  },
+  "2": {
+	"Name": "Broadsword",
+	"Height": 4,
+	"Width": 4,
+	"Power": 6,
+	"SecretName": "ATK +10",
+	"SecretEffect": "A,10",
+	"Embedded": null
+  }
+}
