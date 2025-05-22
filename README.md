@@ -10,4 +10,6 @@ Grid Inventory System in Godot
 [ ] Fix Tooltip
 [x] Keeping track of Skill Pieces already placed
 [ ] Different Skill Palettes with pre-embedded pieces
+	[ ] Add dropdown/item list to switch between weapons
+	[ ] Automatically instantiate embedded skills
 [ ] Saving Skill Palette edits
