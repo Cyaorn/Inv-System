@@ -7,5 +7,5 @@ Grid Inventory System in Godot
 [x] Placing Skill Pieces
 [x] Removing Skill Pieces
 [ ] Fix Tooltip
-[ ] Keeping track of Skill Pieces already placed
+[x] Keeping track of Skill Pieces already placed
 [ ] Different Skill Palettes with pre-embedded pieces
